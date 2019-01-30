@@ -1,4 +1,4 @@
-Signal Processing
+Simple snake
 ===================================
 Version 1.0 Released by [Alexandru Dorobanțiu](http://alex.dorobantiu.ro) on 30.01.2018
 
