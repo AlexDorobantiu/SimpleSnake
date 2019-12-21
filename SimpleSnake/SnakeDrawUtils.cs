@@ -4,23 +4,22 @@ namespace SimpleSnake
 {
     class SnakeDrawUtils
     {
-        public static void writeText(string text, int x, int y, ConsoleColor foregroundColor = ConsoleColor.Gray, ConsoleColor backgroundColor = ConsoleColor.Black)
+        private static void prepareWrite(int x, int y, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
         {
             Console.BackgroundColor = backgroundColor;
             Console.ForegroundColor = foregroundColor;
             Console.SetCursorPosition(x, y);
+        }
+
+        public static void writeText(string text, int x, int y, ConsoleColor foregroundColor = ConsoleColor.Gray, ConsoleColor backgroundColor = ConsoleColor.Black)
+        {
+            prepareWrite(x, y, foregroundColor, backgroundColor);
             Console.Write(text);
         }
 
         public static void drawChar(char c, int x, int y, ConsoleColor foregroundColor = ConsoleColor.Gray, ConsoleColor backgroundColor = ConsoleColor.Black)
         {
-            if (x < 0 || y < 0 || x >= Console.BufferWidth || y >= Console.BufferHeight)
-            {
-                return;
-            }
-            Console.BackgroundColor = backgroundColor;
-            Console.ForegroundColor = foregroundColor;
-            Console.SetCursorPosition(x, y);
+            prepareWrite(x, y, foregroundColor, backgroundColor);
             Console.Write(c);
         }
 

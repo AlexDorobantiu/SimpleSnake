@@ -9,6 +9,9 @@ namespace SimpleSnake.Logic
         private const char emptyChar = ' ';
         private const char rewardChar = '$';
 
+        int screenSizeX;
+        int screenSizeY;
+
         Snake snake;
         SnakeMap map;
         SnakeReward reward;
@@ -18,27 +21,29 @@ namespace SimpleSnake.Logic
 
         Random random = new Random(123); // fixed seed
 
-        public SnakeGame()
+        public SnakeGame(int screenSizeX, int screenSizeY)
         {
+            this.screenSizeX = screenSizeX;
+            this.screenSizeY = screenSizeY;
             resetGame();
         }
 
         private void resetGame()
         {
-            SnakePosition2d snakeStartPosition = new SnakePosition2d(40, 20);
+            SnakePosition2d snakeStartPosition = new SnakePosition2d(screenSizeX / 2, screenSizeY / 2);
             SnakeDirection snakeStartDirection = SnakeDirection.Right;
             snake = new Snake(snakeStartPosition, snakeStartDirection);
 
             ICollection<SnakePosition2d> walls = new List<SnakePosition2d>();
-            for (int x = 0; x < Console.BufferWidth; x++)
+            for (int x = 0; x < screenSizeX; x++)
             {
                 walls.Add(new SnakePosition2d(x, 1));
-                walls.Add(new SnakePosition2d(x, Console.BufferHeight - 2));
+                walls.Add(new SnakePosition2d(x, screenSizeY - 2));
             }
-            for (int y = 2; y < Console.BufferHeight - 2; y++)
+            for (int y = 2; y < screenSizeY - 2; y++)
             {
                 walls.Add(new SnakePosition2d(0, y));
-                walls.Add(new SnakePosition2d(Console.BufferWidth - 1, y));
+                walls.Add(new SnakePosition2d(screenSizeX - 1, y));
             }
             map = new SnakeMap(walls);
             placeReward();
@@ -141,7 +146,7 @@ namespace SimpleSnake.Logic
             if (snake.getBody().Contains(nextHeadPosition) || map.getWalls().Contains(nextHeadPosition))
             {
                 string message = "Dead!";
-                SnakeDrawUtils.writeText(message, Console.BufferWidth / 2 - message.Length / 2, 0, ConsoleColor.Red);
+                SnakeDrawUtils.writeText(message, screenSizeX / 2 - message.Length / 2, 0, ConsoleColor.Red);
                 Console.ReadKey();
                 resetGame();
                 drawEverything();
@@ -166,7 +171,7 @@ namespace SimpleSnake.Logic
         {
             while (true)
             {
-                SnakePosition2d position = new SnakePosition2d(random.Next(Console.BufferWidth - 2) + 1, random.Next(Console.BufferHeight - 3) + 1);
+                SnakePosition2d position = new SnakePosition2d(random.Next(screenSizeX - 2) + 1, random.Next(screenSizeY - 3) + 1);
                 if (!snake.getBody().Contains(position) && !map.getWalls().Contains(position))
                 {
                     reward = new SnakeReward(position, 1);
@@ -205,7 +210,7 @@ namespace SimpleSnake.Logic
         private void drawScoreAndTime()
         {
             SnakeDrawUtils.writeText("Score: " + score, 0, 0);
-            SnakeDrawUtils.writeText("Time: " + gameTime, 0, Console.BufferHeight - 1);
+            SnakeDrawUtils.writeText("Time: " + gameTime, 0, screenSizeY - 1);
         }
 
     }

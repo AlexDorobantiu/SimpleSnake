@@ -21,7 +21,7 @@ namespace SimpleSnake
         static void Main(string[] args)
         {
             initializeScreen();
-            SnakeGame game = new SnakeGame();
+            SnakeGame game = new SnakeGame(screenSizeX, screenSizeY);
             game.drawEverything();
 
             while (true)
